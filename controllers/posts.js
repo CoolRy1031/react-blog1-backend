@@ -16,6 +16,30 @@ function create(req,res){
   })
 }
 
+function index(req, res) {
+  Post.find({})
+  .populate('author')
+  .then(posts => {
+    res.json(posts)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({err: err.errmsg})
+  })
+}
+
+function deleteOne(req,res) {
+  Post.findByIdAndDelete(req.params.id)
+  .then(deletedPost => {
+    res.json(deletedPost)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({err: err.errmsg})
+  })
+}
 export{
-  create
+  create,
+  index,
+  deleteOne
 }
